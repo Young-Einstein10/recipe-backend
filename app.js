@@ -21,17 +21,8 @@ app.use((req, res, next) => {
 	next();
 })
 
-// app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 
-// export class Recipe {
-//   title: string;
-//   ingredients: string;
-//   instructions: string;
-//   difficulty: number;
-//   time: number;
-//   _id: string;
-// }
+app.use(bodyParser.json());
 
 
 app.post('/api/recipes', (req, res, next) => {
@@ -44,17 +35,17 @@ app.post('/api/recipes', (req, res, next) => {
     _id: req.body._id
   });
 
-  console.log(recipe)
+
   recipe.save().then(
     () => {
       res.status(201).json({
-        message: console.log('Post saved successfully!')
+        message: 'Post saved successfully!'
       });
     }
   ).catch(
     (error) => {
       res.status(400).json({
-        error: console.log(error)
+        error: error
       });
     }
   );
@@ -62,7 +53,7 @@ app.post('/api/recipes', (req, res, next) => {
 
 app.get('/api/recipes/:id', (req, res, next) => {
   Recipe.findOne({
-    _id: req.params._id
+    id: req.params._id
   }).then(
     (recipe) => {
       res.status(200).json(recipe);
@@ -85,7 +76,7 @@ app.put('/api/recipes/:id', (req, res, next) => {
     time: req.body.time,
     _id: req.body._id
   });
-  Recipe.updateOne({id: req.params._id}, recipe).then(
+  Recipe.updateOne({_id: req.params._id}, recipe).then(
     () => {
       res.status(201).json({
         message: 'Recipe updated successfully!'
@@ -101,7 +92,7 @@ app.put('/api/recipes/:id', (req, res, next) => {
 });
 
 app.delete('/api/recipes/:id', (req, res, next) => {
-  Recipe.deleteOne({id: req.params._id}).then(
+  Recipe.deleteOne({_id: req.params._id}).then(
     () => {
       res.status(200).json({
         message: 'Deleted!'
@@ -119,7 +110,7 @@ app.delete('/api/recipes/:id', (req, res, next) => {
 app.use('/api/recipes', (req, res, next) => {
   Recipe.find().then(
     (recipes) => {
-      res.status(200).json(recipes);      
+      res.status(200).json(recipes);
     }
   ).catch(
     (error) => {
