@@ -31,8 +31,7 @@ app.post('/api/recipes', (req, res, next) => {
     ingredients: req.body.ingredients,
     instructions: req.body.instructions,
     difficulty: req.body.difficulty,
-    time: req.body.time,
-    _id: req.body._id
+    time: req.body.time 
   });
 
 
@@ -53,7 +52,7 @@ app.post('/api/recipes', (req, res, next) => {
 
 app.get('/api/recipes/:id', (req, res, next) => {
   Recipe.findOne({
-    id: req.params._id
+    _id: req.params.id
   }).then(
     (recipe) => {
       res.status(200).json(recipe);
@@ -74,9 +73,9 @@ app.put('/api/recipes/:id', (req, res, next) => {
     instructions: req.body.instructions,
     difficulty: req.body.difficulty,
     time: req.body.time,
-    _id: req.body._id
+    _id: req.params.id,
   });
-  Recipe.updateOne({_id: req.params._id}, recipe).then(
+  Recipe.updateOne({_id: req.params.id}, recipe).then(
     () => {
       res.status(201).json({
         message: 'Recipe updated successfully!'
@@ -92,7 +91,7 @@ app.put('/api/recipes/:id', (req, res, next) => {
 });
 
 app.delete('/api/recipes/:id', (req, res, next) => {
-  Recipe.deleteOne({_id: req.params._id}).then(
+  Recipe.deleteOne({_id: req.params.id}).then(
     () => {
       res.status(200).json({
         message: 'Deleted!'
